@@ -1,55 +1,34 @@
 <template>
-    <v-dialog
-            v-model="display"
-            persistent
-            lazy
-            full-width
-            :width="width">
-        <v-text-field
-                slot="activator"
-                :label="label"
-                :value="formattedDatetime"
-                readonly>
-        </v-text-field>
+  <v-dialog v-model="display" persistent lazy full-width :width="width">
+    <v-text-field slot="activator" :label="label" :value="formattedDatetime" :error="error" :error-messages="errorMessages" :required="required" readonly>
+    </v-text-field>
 
-        <v-card>
-            <v-card-text style="padding: 0;">
-                <v-tabs fixed-tabs v-model="activeTab">
-                    <v-tab key="calendar">
-                        <v-icon>event</v-icon>
-                    </v-tab>
-                    <v-tab key="timer" :disabled="!dateSelected">
-                        <v-icon>access_time</v-icon>
-                    </v-tab>
-                    <v-tab-item key="calendar">
-                        <v-date-picker
-                                full-width
-                                v-model="datePart"
-                                scrollable
-                                :locale="locale"
-                                actions>
-                        </v-date-picker>
-                    </v-tab-item>
-                    <v-tab-item key="timer">
-                        <v-time-picker
-                                ref="timer"
-                                full-width
-                                class="v-time-picker-custom"
-                                v-model="timePart"
-                                scrollable
-                                :format="timePickerFormat"
-                                actions>
-                        </v-time-picker>
-                    </v-tab-item>
-                </v-tabs>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="grey lighten-1" flat @click.native="clearHandler">{{clearText}}</v-btn>
-                <v-btn color="green darken-1" flat @click="okHandler">{{okText}}</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+    <v-card>
+      <v-card-text style="padding: 0;">
+        <v-tabs fixed-tabs v-model="activeTab">
+          <v-tab key="calendar">
+            <v-icon>event</v-icon>
+          </v-tab>
+          <v-tab key="timer" :disabled="!dateSelected">
+            <v-icon>access_time</v-icon>
+          </v-tab>
+          <v-tab-item key="calendar">
+            <v-date-picker full-width v-model="datePart" scrollable :locale="locale" actions>
+            </v-date-picker>
+          </v-tab-item>
+          <v-tab-item key="timer">
+            <v-time-picker ref="timer" full-width class="v-time-picker-custom" v-model="timePart" scrollable :format="timePickerFormat" actions>
+            </v-time-picker>
+          </v-tab-item>
+        </v-tabs>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="grey lighten-1" flat @click.native="clearHandler">{{clearText}}</v-btn>
+        <v-btn color="green darken-1" flat @click="okHandler">{{okText}}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -97,6 +76,16 @@
       okText: {
         type: String,
         default: 'OK'
+      },
+      error: {
+        type: Boolean,
+        default: false
+      },
+      errorMessages: {
+        type: [String, Array]
+      },
+      required: {
+        type: [String, Boolean]
       }
     },
     data () {
